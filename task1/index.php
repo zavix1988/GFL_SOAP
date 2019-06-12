@@ -4,18 +4,14 @@ require 'libs/SClient.php';
 require 'libs/CurlClient.php';
 require 'config.php';
 
-$client = new SClient(SOAPServ);
+$soapClient = new SClient(SOAPServ);
 
-$response = $client->ListOfCurrenciesByCode();
+$scCountries = $soapClient->ListOfCurrenciesByCode();
+$scLanguage = $soapClient->LanguageName(ISO_CODE);
 
-$client = new CurlClient(SOAPServ);
-$response = $client->ListOfCurrenciesByCode();
-//$response = $client->LanguageName('UKR');
+$curlClient = new CurlClient(SOAPServ);
 
-var_dump($response);
+$curlCountries = $curlClient->ListOfCurrenciesByCode();
+$curlLanguage = $curlClient->LanguageName(ISO_CODE);
 
-/* foreach($response as $item){
-    var_dump($item);
-}
-
- */
+require 'templates/template.inc.php';

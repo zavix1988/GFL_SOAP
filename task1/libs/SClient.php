@@ -10,7 +10,9 @@ class SClient implements iSOAP
     }
 
     public function ListOfCurrenciesByCode(){
-        return $this->soapService->ListOfCurrenciesByCode()->ListOfCurrenciesByCodeResult->tCurrency;
+        $result = $this->soapService->ListOfCurrenciesByCode()->ListOfCurrenciesByCodeResult->tCurrency;
+        array_shift($result);
+        return $result;
     }
     public function LanguageName($name){
         return $this->soapService->LanguageName(['sISOCode' => $name]);

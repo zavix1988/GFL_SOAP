@@ -37,9 +37,16 @@ class CurlClient implements iSOAP
         $response = curl_exec($this->soapService); 
         curl_close($this->soapService);
 
-        $response = preg_replace("/(<\/?)(\w+):([^>]*>)/", "$1$2$3", $response);
-        $xml = new SimpleXMLElement($response);
-        return $xml->soapBody->mListOfCurrenciesByCodeResponse->mListOfCurrenciesByCodeResult;
+        $xmlObj = simplexml_load_string($response);
+        $xmlObj->registerXPathNamespace('m', 'http://www.oorsprong.org/websamples.countryinfo');
+        $sISOCode = $xmlObj->xpath('//m:sISOCode');
+        $sName = $xmlObj->xpath('//m:sName');
+        for ($i = 0; $i < count($sISOCode); $i++){
+            $result[] = ['sISOCode' => (string)$sISOCode[$i], 'sName' => (string)$sName[$i]];
+        }
+        array_shift($result);
+
+        return $result;
         
     }
     public function LanguageName($name){
@@ -70,7 +77,12 @@ class CurlClient implements iSOAP
         curl_setopt($this->soapService, CURLOPT_HTTPHEADER, $headers);
         $response = curl_exec($this->soapService); 
         curl_close($this->soapService);
-        return $response;
+
+        $xmlObj = simplexml_load_string($response);
+        $xmlObj->registerXPathNamespace('m', 'http://www.oorsprong.org/websamples.countryinfo');
+        $result = $xmlObj->xpath('//m:LanguageNameResult');
+
+        return (string)$result[0];
     }
         
 
