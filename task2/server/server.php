@@ -21,7 +21,6 @@ spl_autoload_register(function($class){
 
 $cars = new AutoShop();
 
-//$allCars = $cars->getAllCars();
-$car = $cars->getCar(1);
-
-var_dump($car);
+$cars->setOrder(1, 'Alex', 'Zhukov', 'credit_card');
+$cars->setOrder(4, 'Alex', 'Zhukov', 'credit_card');
+$cars->setOrder(2, 'Alex', 'Zhukov', 'credit_card');
