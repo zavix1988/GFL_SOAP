@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--definitions
+        xmlns="http://schemas.xmlsoap.org/wsdl/"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+        xmlns:tns="http://localhost/GFL_SOAP/task2/server/"
+        name="AutoShopService"
+        targetNamespace="http://localhost/GFL_SOAP/task2/server/">
+    <types>
+        <xs:schema elementFormDefault="qualified" targetNamespace="http://localhost/GFL_SOAP/task2/server/">
+            <xs:complexType name="tCars">
+                <xs:sequence>
+                    <xs:element name="sID" type="xs:string"/>
+                    <xs:element name="sName" type="xs:string"/>
+                    <xs:element name="sModel" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="ArrayOftCars">
+                <xs:sequence>
+                    <xs:element name="tCars" type="tns:tCars" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:element name="getallcars">
+                <xs:complexType>
+                    <xs:sequence/>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getallcarsResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="getallcarsResult" type="tns:ArrayOftCars"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="LanguageName">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="sISOCode" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="LanguageNameResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="LanguageNameResult" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+    </types>
+    <message name="getallcarsSoapRequest">
+        <part name="parameters" element="tns:getallcars"/>
+    </message>
+    <message name="getallcarsSoapResponse">
+        <part name="parameters" element="tns:getallcarsResponse"/>
+    </message>
+    <message name="LanguageNameSoapRequest">
+        <part name="parameters" element="tns:LanguageName"/>
+    </message>
+    <message name="LanguageNameSoapResponse">
+        <part name="parameters" element="tns:LanguageNameResponse"/>
+    </message>
+    <portType name="AutoShopServiceSoapType">
+        <operation name="getallcars">
+            <documentation>Returns a list of currencies ordered by code.</documentation>
+            <input message="tns:getallcarsSoapRequest"/>
+            <output message="tns:getallcarsSoapResponse"/>
+        </operation>
+        <operation name="LanguageName">
+            <documentation>Find a language name based on the passed ISO language code</documentation>
+            <input message="tns:LanguageNameSoapRequest"/>
+            <output message="tns:LanguageNameSoapResponse"/>
+        </operation>
+    </portType>
+    <binding name="AutoShopServiceSoapBinding" type="tns:AutoShopServiceSoapType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="getallcars">
+            <soap:operation soapAction="" style="document"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="LanguageName">
+            <soap:operation soapAction="" style="document"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+    </binding>
+    <service name="AutoShopService">
+        <port name="AutoShopServiceSoap" binding="tns:AutoShopServiceSoapBinding">
+            <soap:address location="http://localhost/GFL_SOAP/task2/server/server.php"/>
+        </port>
+    </service>
+</definitions-->
+<definitions xmlns:tns="http://localhost.wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsd1="http://localhost.xsd" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/" name="AutoShopService" targetNamespace="http://localhost.wsdl">
+    <!--  definition of datatypes  -->
+    <types>
+        <schema xmlns="http://www.w3.org/2000/10/XMLSchema" targetNamespace="http://localhost.xsd">
+            <element name="resultcode">
+                <complexType>
+                    <all>
+                        <element name="value" type="int"/>
+                    </all>
+                </complexType>
+            </element>
+            <element name="void">
+                <complexType>
+                    <sequence/>
+                </complexType>
+            </element>
+        </schema>
+    </types>
+    <!--  response messages  -->
+    <message name="returns_resultcode">
+        <part name="resultcode" type="xsd:resultcode"/>
+    </message>
+    <!--  request messages  -->
+    <message name="getallcars">
+        <part name="void" type="xsd:void"/>
+    </message>
+    <!--  server's services  -->
+    <portType name="AutoShopServiceSoapType">
+        <operation name="getallcars">
+            <input message="tns:getallcars"/>
+            <output message="tns:returns_resultcode"/>
+        </operation>
+    </portType>
+    <!--  server encoding  -->
+    <binding name="AutoShopServiceSoapType_webservices" type="tns:AutoShopServiceSoapType">
+        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="getallcars">
+            <soap:operation soapAction="urn:xmethods-delayed-quotes#getallcars"/>
+            <input>
+                <soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+    </binding>
+    <!--  access to service provider  -->
+    <service name="AutoShopService">
+        <port name="AutoShopService_0" binding="AutoShopServiceSoapType_webservices">
+            <soap:address location="http://localhost/GFL_SOAP/task2/server/server.php"/>
+        </port>
+    </service>
+</definitions>

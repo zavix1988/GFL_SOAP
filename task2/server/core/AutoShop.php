@@ -16,13 +16,21 @@ class AutoShop
     public function __construct()
     {
         $this->pdo = Db::instance();
+        $this->allCars = [];
     }
 
-    public function getAllCars()
+
+
+    public function getallcars()
     {
         $sql = "SELECT ashop_cars.id, ashop_brands.name, ashop_cars.model FROM ashop_cars INNER JOIN ashop_brands ON ashop_cars.brand_id=ashop_brands.id";
-        return $this->pdo->query($sql);
+
+        return 1;
+        //return $this->pdo->query($sql);
     }
+
+
+
 
     public function getCarById($id)
     {

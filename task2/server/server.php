@@ -6,7 +6,7 @@
  * Time: 14:23
  */
 
-use core\AutoShop;
+//ini_set("soap.wsdl_cache_enabled", 0);
 
 require 'config/db.php';
 require 'config/app.php';
@@ -19,8 +19,21 @@ spl_autoload_register(function($class){
     }
 });
 
-$cars = new AutoShop();
 
-$cars->setOrder(1, 'Alex', 'Zhukov', 'credit_card');
-$cars->setOrder(4, 'Alex', 'Zhukov', 'credit_card');
-$cars->setOrder(2, 'Alex', 'Zhukov', 'credit_card');
+//$cars = new \core\AutoShop();
+//var_dump($cars->getAllCars());
+//$cars->setOrder(1, 'Alex', 'Zhukov', 'credit_card');
+//$cars->setOrder(4, 'Alex', 'Zhukov', 'credit_card');
+//$cars->setOrder(2, 'Alex', 'Zhukov', 'credit_card');
+
+
+//var_dump($server->getFunctions());
+
+
+try{
+    $server = new SoapServer('wsdl/rules.wsdl');
+    $server->setClass('core\AutoShop');
+    $server->handle();
+} catch (SoapFault $exc) {
+    echo $exc->getTraceAsString();
+}
