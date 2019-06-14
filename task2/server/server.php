@@ -6,7 +6,7 @@
  * Time: 14:23
  */
 
-//ini_set("soap.wsdl_cache_enabled", 0);
+ini_set("soap.wsdl_cache_enabled", 0);
 
 require 'config/db.php';
 require 'config/app.php';
@@ -30,10 +30,7 @@ spl_autoload_register(function($class){
 //var_dump($server->getFunctions());
 
 
-try{
+
     $server = new SoapServer('wsdl/rules.wsdl');
     $server->setClass('core\AutoShop');
     $server->handle();
-} catch (SoapFault $exc) {
-    echo $exc->getTraceAsString();
-}
