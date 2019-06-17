@@ -1,62 +1,201 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<definitions name="Cars"
-             targetNamespace="http://tc.geeksforless.net/~user7/soap/soapServer/"
-             xmlns="http://schemas.xmlsoap.org/wsdl/"
-             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
-             xmlns:tns="http://www.examples.com/wsdl/HelloService.wsdl"
-             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-             xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding"
-             xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+<?xml version="1.0" encoding="utf-8"?>
+<definitions
+        xmlns="http://schemas.xmlsoap.org/wsdl/"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+        xmlns:tns="http://gflpractice/GFL_SOAP/task2/server/"
+        xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+        xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+        name="AutoshopService"
+        targetNamespace="http://gflpractice/GFL_SOAP/task2/server/">
 
-    <wsdl:types>
-        <xsd:schema targetNamespace="http://schema.example.com">
-            <xsd:complexType name="resultArray">
-                <xsd:complexContent>
-                    <xsd:restriction base="SOAP-ENC:Array">
-                        <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="xsd:string[]" />
-                    </xsd:restriction>
-                </xsd:complexContent>
-            </xsd:complexType>
-        </xsd:schema>
-    </wsdl:types>
+<!--Описание типов(переменных) соответствущие запросам-->
+    <types>
+        <xs:schema elementFormDefault="qualified" targetNamespace="http://gflpractice/GFL_SOAP/task2/server/">
+
+            <!--Запрос getAllCars()-->
+            <xs:element name="allCarsRequest">
+                <xs:complexType>
+                    <xs:sequence />
+                </xs:complexType>
+            </xs:element>
+            <!--Ответ на запрос getAllCars() и getCarByParam()-->
+            <!--Описание массива машин-->
+            <xs:complexType name="carList">
+                <xs:complexContent>
+                    <xs:restriction base="soapenc:Array">
+                        <xs:attribute ref="soapenc:arrayType" wsdl:arrayType="tns:car[]" />
+                    </xs:restriction>
+                </xs:complexContent>
+            </xs:complexType>
+            <!--Описание элемента этого массива-->
+            <xs:complexType name="car">
+                <xs:sequence>
+                    <xs:element name="id" type="xs:int" />
+                    <xs:element name="brand" type="xs:string" />
+                    <xs:element name="model" type="xs:string" />
+                </xs:sequence>
+            </xs:complexType>
+
+            <!--Запрос getCarByIdRequest($id)-->
+            <xs:element name="carByIdRequest" type="xs:integer" minOccurs="1" maxOccurs="1" />
+            <!--Ответ на запрос getCarByIdRequest($id)-->
+            <xs:complexType name="carById">
+                <xs:sequence>
+                    <xs:element name="id" type="xs:integer" />
+                    <xs:element name="brand" type="xs:string" />
+                    <xs:element name="model" type="xs:string" />
+                    <xs:element name="year" type="xs:integer" />
+                    <xs:element name="displacement" type="xs:float" />
+                    <xs:element name="color" type="xs:string" />
+                    <xs:element name="max_speed" type="xs:integer" />
+                    <xs:element name="price" type="xs:integer" />
+                </xs:sequence>
+            </xs:complexType>
+
+            <!--Запрос getCarByParam($year, $brand, $model, $displacement, $color, $max_speed, $price)-->
+            <xs:element name="carsByParamList">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="year" type="xs:integer" minOccurs="1" maxOccurs="1" />
+                        <xs:element name="brand" type="xs:string" minOccurs="0" maxOccurs="1" />
+                        <xs:element name="model" type="xs:string" minOccurs="0" maxOccurs="1" />
+                        <xs:element name="minDisplacement" type="xs:float" minOccurs="0" maxOccurs="1" />
+                        <xs:element name="maxDisplacement" type="xs:float" minOccurs="0" maxOccurs="1" />
+                        <xs:element name="color" type="xs:string" minOccurs="0" maxOccurs="1" />
+                        <xs:element name="max_speed" type="xs:integer" minOccurs="0" maxOccurs="1" />
+                        <xs:element name="minPrice" type="xs:integer" minOccurs="0" maxOccurs="1" />
+                        <xs:element name="maxPrice" type="xs:integer" minOccurs="0" maxOccurs="1" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <!--Запрос setOrder()-->
+            <xs:element name="orderParamsList">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="carId" type="xs:integer"  minOccurs="1" maxOccurs="1" />
+                        <xs:element name="firstName" type="xs:string"  minOccurs="1" maxOccurs="1" />
+                        <xs:element name="lastName" type="xs:string"  minOccurs="1" maxOccurs="1" />
+                        <xs:element name="payment" type="xs:string"  minOccurs="1" maxOccurs="1" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <!--Ответ на запрос getCarByParam()-->
+            <xs:element name="orderResponse">
+                <complexType/>
+            </xs:element>
 
 
-    <message name="getCarsResponse">
-        <part name="Result" type="tns:resultArray"/>
+        </xs:schema>
+    </types>
+
+<!-- Описание функций-->
+
+    <!--Запрос getAllCars-->
+    <message name="getAllCarsRequest">
+        <part name="parameters" element="tns:allCarsRequest" />
     </message>
-    <message name="getDataRequest">
-        <part name="id" type="xsd:int"/>
-        <part name="name" type="xsd:string"/>
-        <part name="model" type="xsd:string"/>
+    <!--Ответ на запрос getAllCars-->
+    <message name="getAllCarsResponse">
+        <part name="parameters" type="tns:carList"/>
     </message>
 
-    <message name="getOneDataRequest">
-        <part name="id" type="xsd:int"/>
+    <!--Запрос getCarById($id)-->
+    <message name="getCarByIdRequest">
+        <part name="parameters" element="tns:carByIdRequest"/>
     </message>
-    <message name="getDataResponse">
-        <part name="Result" type="tns:string"/>
+    <!--Ответ на запрос getCarByIdRequest($id)-->
+    <message name="getCarByIdResponse">
+        <part name="parameters" type="tns:carById"/>
+    </message>
+
+    <!--Запрос getCarByParam($year, $brand, $model, $displacement, $color, $max_speed, $price)-->
+    <message name="getCarsByParamRequest">
+        <part name="parameters" element="tns:carsByParamList"/>
+    </message>
+    <!--Ответ на запрос getCarByParam()-->
+    <message name="getCarsByParamResponse">
+        <part name="parameters" type="tns:carList"/>
+    </message>
+
+    <!--Запрос setOrder()-->
+    <message name="setOrderRequest">
+        <part name="parameters" element="tns:orderParamsList" />
+    </message>
+    <!--Ответ на запрос setOrder()-->
+    <message name="setOrderResponse">
+        <part name="parameters" type="tns:orderResponse" />
     </message>
 
 
+    <portType name="AutoshopServiceSoapType">
 
-    <portType name="PortType">
-        <operation name="allAuto">
-            <output message="tns:getCarsResponse"/>
+        <operation name="getAllCars">
+            <input message="tns:getAllCarsRequest"/>
+            <output message="tns:getAllCarsResponse"/>
         </operation>
-        <operation name="oneAuto">
-            <input message="tns:getOneDataRequest"/>
-            <output message="tns:getCarsResponse"/>
+        <operation name="getCarById">
+            <input message="tns:getCarByIdRequest"/>
+            <output message="tns:getCarByIdResponse"/>
         </operation>
+        <operation name="getCarsByParam">
+            <input message="tns:getCarsByParamRequest"/>
+            <output message="tns:getCarsByParamResponse"/>
+        </operation>
+        <operation name="setOrder">
+            <input message="tns:setOrderRequest"/>
+            <output message="tns:setOrderResponse"/>
+        </operation>
+
     </portType>
 
-    <binding name="Binding" type="tns:PortType">
-        <operation name="allAuto"/>
-        <operation name="oneAuto"/>
+    <binding name="AutoshopServiceSoapBinding" type="tns:AutoshopServiceSoapType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+        <operation name="getAllCars">
+            <soap:operation soapAction="" style="document"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="getCarById">
+            <soap:operation soapAction="" style="document"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="getCarsByParam">
+            <soap:operation soapAction="" style="document"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="setOrder">
+            <soap:operation soapAction="" style="document"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+
     </binding>
 
-    <service name="CarsService">
-        <port name="CarsPort" binding="Binding">
-            <soap:address location="http://tc.geeksforless.net/~user7/soap/soapServer/index.php"/>
+    <service name="AutoshopService">
+        <port name="AutoshopServiceSoap" binding="tns:AutoshopServiceSoapBinding">
+            <soap:address location="http://gflpractice/GFL_SOAP/task2/server/server.php" />
         </port>
     </service>
+
 </definitions>

@@ -19,18 +19,6 @@ spl_autoload_register(function($class){
     }
 });
 
-
-//$cars = new \core\AutoShop();
-//var_dump($cars->getAllCars());
-//$cars->setOrder(1, 'Alex', 'Zhukov', 'credit_card');
-//$cars->setOrder(4, 'Alex', 'Zhukov', 'credit_card');
-//$cars->setOrder(2, 'Alex', 'Zhukov', 'credit_card');
-
-
-//var_dump($server->getFunctions());
-
-
-
     $server = new SoapServer('wsdl/rules.wsdl');
-    $server->setClass('core\AutoShop');
+    $server->setClass('core\AutoShop', array('cache_wsdl' => WSDL_CACHE_NONE));
     $server->handle();
