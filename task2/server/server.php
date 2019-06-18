@@ -19,6 +19,7 @@ spl_autoload_register(function($class){
     }
 });
 
-    $server = new SoapServer('wsdl/rules.wsdl');
-    $server->setClass('core\AutoShop', array('cache_wsdl' => WSDL_CACHE_NONE));
-    $server->handle();
+
+$server = new SoapServer(WSDL);
+$server->setClass('core\AutoShop', array('cache_wsdl' => WSDL_CACHE_NONE));
+$server->handle();

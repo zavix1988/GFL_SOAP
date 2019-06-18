@@ -3,15 +3,15 @@
         xmlns="http://schemas.xmlsoap.org/wsdl/"
         xmlns:xs="http://www.w3.org/2001/XMLSchema"
         xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
-        xmlns:tns="http://gflpractice/GFL_SOAP/task2/server/"
+        xmlns:tns="http://localhost/GFL_SOAP/task2/server/"
         xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
         xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
         name="AutoshopService"
-        targetNamespace="http://gflpractice/GFL_SOAP/task2/server/">
+        targetNamespace="http://localhost/GFL_SOAP/task2/server/">
 
 <!--Описание типов(переменных) соответствущие запросам-->
     <types>
-        <xs:schema elementFormDefault="qualified" targetNamespace="http://gflpractice/GFL_SOAP/task2/server/">
+        <xs:schema elementFormDefault="qualified" targetNamespace="http://localhost/GFL_SOAP/task2/server/">
 
             <!--Запрос getAllCars()-->
             <xs:element name="allCarsRequest">
@@ -60,10 +60,10 @@
                         <xs:element name="year" type="xs:integer" minOccurs="1" maxOccurs="1" />
                         <xs:element name="brand" type="xs:string" minOccurs="0" maxOccurs="1" />
                         <xs:element name="model" type="xs:string" minOccurs="0" maxOccurs="1" />
-                        <xs:element name="minDisplacement" type="xs:float" minOccurs="0" maxOccurs="1" />
-                        <xs:element name="maxDisplacement" type="xs:float" minOccurs="0" maxOccurs="1" />
                         <xs:element name="color" type="xs:string" minOccurs="0" maxOccurs="1" />
                         <xs:element name="max_speed" type="xs:integer" minOccurs="0" maxOccurs="1" />
+                        <xs:element name="minDisplacement" type="xs:float" minOccurs="0" maxOccurs="1" />
+                        <xs:element name="maxDisplacement" type="xs:float" minOccurs="0" maxOccurs="1" />
                         <xs:element name="minPrice" type="xs:integer" minOccurs="0" maxOccurs="1" />
                         <xs:element name="maxPrice" type="xs:integer" minOccurs="0" maxOccurs="1" />
                     </xs:sequence>
@@ -194,7 +194,7 @@
 
     <service name="AutoshopService">
         <port name="AutoshopServiceSoap" binding="tns:AutoshopServiceSoapBinding">
-            <soap:address location="http://gflpractice/GFL_SOAP/task2/server/server.php" />
+            <soap:address location="http://localhost/GFL_SOAP/task2/server/server.php" />
         </port>
     </service>
 

@@ -7,3 +7,4 @@
  */
 
 define('ROOT', dirname(__DIR__));
+define('WSDL', 'http://localhost/GFL_SOAP/task2/server/wsdl/rules.wsdl');

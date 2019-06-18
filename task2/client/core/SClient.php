@@ -20,18 +20,29 @@ class SClient
         return $this->server->getallCars();
     }
 
-    public function getCarById()
+    public function getCarById($id)
     {
-        return $this->server->getCarById();
+
+        return $this->server->getCarById($id);
     }
 
-    public function getCarsByParam()
+    public function getCarsByParam($year, $brand, $model, $color, $max_speed, $minDisplacement, $maxDisplacement, $minPrice, $maxPrice)
     {
-        return $this->server->getCarsByParam();
+        return $this->server->getCarsByParam([
+            'year' => $year,
+            'brand' => $brand,
+            'model' => $model,
+            'color' => $color,
+            'max_speed' => $max_speed,
+            'minDisplacement' => $minDisplacement,
+            'maxDisplacement' => $maxDisplacement,
+            'minPrice' => $minPrice,
+            'maxPrice' => $maxPrice
+        ]);
     }
 
-    public function setOrder()
+    public function setOrder($id, $firstName, $lastName, $payment)
     {
-        return $this->setOrder();
+        return $this->server->setOrder(['carId' => $id, 'firstName' => $firstName, 'lastName' => $lastName, 'payment' => $payment]);
     }
 }

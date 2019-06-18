@@ -38,15 +38,15 @@ class AutoShop
         $sql = "SELECT ashop_cars.id, ashop_brands.name  AS brand, ashop_cars.model FROM ashop_cars INNER JOIN ashop_brands ON ashop_cars.brand_id=ashop_brands.id WHERE ashop_cars.year = ? ";
         $params[] = $in->year;
 
-        if ($in->brand != 0){
-            $sql .= "AND ashop_brand.name = ? ";
+        if ($in->brand != ''){
+            $sql .= "AND ashop_brands.name = ? ";
             $params[] = $in->brand;
         }
-        if ($in->model != 0){
+        if ($in->model != ''){
             $sql .= "AND ashop_cars.model = ? ";
             $params[] = $in->model;
         }
-        if ($in->color != 0){
+        if ($in->color != ''){
             $sql .= "AND ashop_cars.color = ? ";
             $params[] = $in->color;
         }
@@ -59,7 +59,7 @@ class AutoShop
             $params[] = $in->minDisplacement;
         }
         if ($in->maxDisplacement != 0){
-            $sql .= "AND ashop_cars.displacement >= ? ";
+            $sql .= "AND ashop_cars.displacement <= ? ";
             $params[] = $in->maxDisplacement;
         }
         if ($in->minPrice != 0){
@@ -67,17 +67,16 @@ class AutoShop
             $params[] = $in->minPrice;
         }
         if ($in->maxPrice != 0){
-            $sql .= "AND ashop_cars.price >= ? ";
+            $sql .= "AND ashop_cars.price <= ? ";
             $params[] = $in->maxPrice;
         }
-
         return $this->pdo->query($sql, $params);
     }
 
     public function setOrder($in)
     {
         $sql = "INSERT INTO ashop_orders (car_id, first_name, last_name, payment) VALUES (?, ?, ?, ?)";
-        return $this->pdo->execute($sql, [$in->carId, $in->firstName, $in->lastName, $in->payment]);
+        return $this->pdo->execute($sql, [(int)$in->carId, $in->firstName, $in->lastName, $in->payment]);
     }
 }
 

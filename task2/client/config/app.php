@@ -6,4 +6,5 @@
  * Time: 23:58
  */
 
-define('WSDL', 'http://gflpractice/GFL_SOAP/task2/server/wsdl/rules.wsdl');
+define('WSDL', 'http://localhost/GFL_SOAP/task2/server/wsdl/rules.wsdl');
+define('HOME', 'http://localhost/GFL_SOAP/task2/client/');

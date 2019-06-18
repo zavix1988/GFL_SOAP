@@ -1,5 +1,5 @@
 <div class="container">
-    <h1 class="text-center">Cars</h1>
+    <h1 class="text-center">AutoShop</h1>
     <hr/>
     <div class="row">
         <div class="col-md-2">
@@ -41,34 +41,34 @@
                     <label for="max_price">Стоимость до</label>
                     <input type="text" class="form-control" id="max_price" name="max_price" placeholder="Стоимость до">
                 </div>
-                 <button type="submit" class="btn btn-secondary">Посмотреть</button>
+                <button type="submit" class="btn btn-secondary">Посмотреть</button>
             </form>
         </div>
         <div class="col-md-10">
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th>№</th>
                     <th>Бренд</th>
                     <th>Модель</th>
+                    <th>Год выпуска</th>
+                    <th>Объём двигуна(Л)</th>
+                    <th>Цвет</th>
+                    <th>Макс. скорость</th>
+                    <th>Цена</th>
+                    <th></th>
                 </tr>
-
                 </thead>
                 <tbody>
-                <?php if(!empty($allCars)):?>
-                    <?php for($i=0; $i<count($allCars); $i++):?>
-                        <tr>
-                            <td><a href="?id=<?=$allCars[$i]->id?>"><?=$i+1?></a></td>
-                            <td><?=$allCars[$i]->brand?></td>
-                            <td><?=$allCars[$i]->model?></td>
-                        </tr>
-                    <?php endfor;?>
-                <?php else:?>
                     <tr>
-                        <td colspan="3">Пусто</td>
+                        <td><?=$car->brand?></td>
+                        <td><?=$car->model?></td>
+                        <td><?=$car->year?></td>
+                        <td><?=$car->displacement?></td>
+                        <td><?=$car->color?></td>
+                        <td><?=$car->max_speed?></td>
+                        <td><?=$car->price?></td>
+                        <td><a class="btn btn-primary" href="?car=<?=$car->id?>" role="button">Купить</a></td>
                     </tr>
-                <?php endif;?>
-
                 </tbody>
             </table>
         </div>
